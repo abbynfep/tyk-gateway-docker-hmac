@@ -17,17 +17,17 @@ Changes made to the fork from the original:
 Instructions:
 1. Start the docker container with docker-compose up (like described in the original readme)
 2. Create the key, get the HMAC string, make the authenticated request to the HMAC-guarded endpoint
-  a. Python:
-    a. Install dependencies with 'pip3 install requests'
-    b. Run all three functions with 'python3 make_authenticated_request.py'
-    c. That's it
-  b. Bash + go
-    a. Run create_key.sh
-    b. Grab the value from the "key" field. That's the Key ID.
-    c. Insert the key ID into the get_api_key_info.sh script and run it.
-    d. Grab the value from the "hmac_string" field. That's the HMAC secret.
-    e. Paste the key ID and HMAC secret into make_authenticated_request.go and run it.
-    f. That's it.
+  1. Python:
+    1. Install dependencies with 'pip3 install requests'
+    1. Run all three functions with 'python3 make_authenticated_request.py'
+    1. That's it
+  1. Bash + go
+    1. Run create_key.sh
+    1. Grab the value from the "key" field. That's the Key ID.
+    1. Insert the key ID into the get_api_key_info.sh script and run it.
+    1. Grab the value from the "hmac_string" field. That's the HMAC secret.
+    1. Paste the key ID and HMAC secret into make_authenticated_request.go and run it.
+    1. That's it.
 
 
 # Tyk Gateway Docker
