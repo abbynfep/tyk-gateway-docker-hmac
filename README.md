@@ -1,33 +1,43 @@
 # Tyk Gateway Docker HMAC
 
-Changes made to the fork from the original:
-- Added apps/hmac-api.json
+Added files:
+- apps/hmac-api.json - it defines an endoint guarded with HMAC
 - gateway_requests directory that stores handy requests. Handy, right?
   - check_docker_status.sh - check that the docker container and redis instance are working correctly. Run: bash check_docker_status.sh
   - list_apis.sh - lists the API definitions. Run: bash list_apis.sh
-  - get_401_error.sh - Shows what happens when someone tries to make an unauthenticated request to the HMAC-guarded endpoint
-  - create_key.sh - Creates an HMAC key
-  - get_api_key_info.sh - Retrieves data about the key, including the HMAC string
-  - These files make an authenticated request to the HMAC-guarded endpoint:
-    - Bash: make_authenticated_request.sh
-    - Python: make_authenticated_request.py - will create the key, retrieve the HMAC string, and make the authenticated request
-    - Go: make_authenticated_request.go
+  - Subdirectories '/hmac/' and '/bearer_token/' test the endpoints created with the respective authorization methods. They each contain these files: 
+    - get_401_error.sh - Shows what happens when someone tries to make an unauthenticated request to the endpoint
+    - create_key.sh - Creates a key used to access the protected endpoint
+    - get_api_key_info.sh - Retrieves data about the key, including the HMAC string (if applicable)
+    - These files make an authenticated request to the HMAC-guarded endpoint:
+      - Bash: make_authenticated_request.sh
+      - Python: make_authenticated_request.py - will create the key, retrieve the HMAC string, and make the authenticated request
+      - Go: make_authenticated_request.go
+  
+
+The HMAC authorization is no longer needed for current projects, but I'm keeping everything HMAC-related anyway.
 
 
 Instructions:
-1. Start the docker container with docker-compose up (like described in the original readme)
-2. Create the key, get the HMAC string, make the authenticated request to the HMAC-guarded endpoint
-  1. Python:
-    1. Install dependencies with 'pip3 install requests'
-    1. Run all three functions with 'python3 make_authenticated_request.py'
-    1. That's it
-  1. Bash + go
-    1. Run create_key.sh
-    1. Grab the value from the "key" field. That's the Key ID.
-    1. Insert the key ID into the get_api_key_info.sh script and run it.
-    1. Grab the value from the "hmac_string" field. That's the HMAC secret.
-    1. Paste the key ID and HMAC secret into make_authenticated_request.go and run it.
-    1. That's it.
+1. Start the docker container with `docker-compose up` (like described in the original readme)
+1. Test the HMAC endpoint: Create the key, get the HMAC string, make the authenticated request to the HMAC-guarded endpoint
+    1. Python:
+      1. Install dependencies with 'pip3 install requests'
+      1. Run all three functions with 'python3 make_authenticated_request.py'
+    1. Bash + go
+      1. Run create_key.sh
+      1. Grab the value from the "key" field. That's the Key ID.
+      1. Insert the key ID into the get_api_key_info.sh script and run it.
+      1. Grab the value from the "hmac_string" field. That's the HMAC secret.
+      1. Paste the key ID and HMAC secret into gateway_requests/hmac/make_authenticated_request.go and run it.
+1. Test the token endpoint: Create the key and make the authenticated request to the token-guarded endpoint.
+    1. Python:
+      1. Install dependencies with 'pip3 install requests'
+      1. Run all three functions with 'python3 make_authenticated_request.py'
+    1. Bash + go
+      1. Run create_key.sh
+      1. Grab the value from the "key" field. That's the Key ID.
+      1. Paste the key ID into gateway_requests/bearer_token/make_authenticated_request.go and run it.
 
 
 # Tyk Gateway Docker
